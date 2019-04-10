@@ -1,0 +1,25 @@
+#!/bin/sh
+#
+# chkconfig: 2345 70 30
+# 说明：
+# 2345是指脚本的运行级别，即在2345这4种模式下都可以运行，234都是文本界面，5就是图形界面X
+# 70是指脚本将来的启动顺序号，如果别的程序的启动顺序号比70小（比如44、45），则脚本需要等这些程序都启动以后才启动。
+# 30是指系统关闭时，脚本的停止顺序号。
+# description: proxy_pool SSDBAdmin startup scripts
+#
+# each config file for one instance
+
+ 
+if [ -f /etc/rc.d/init.d/functions ]; then
+	. /etc/rc.d/init.d/functions
+fi
+ 
+# 启动代理池
+cd /usr/local/proxy_pool/Run
+nohup python3 -u main.py > proxy.log 2>&1 &
+
+# 启动SSDB管理工具
+cd /usr/local/SSDBAdmin
+nohup python3 -u run.py > ssdb_admin.log 2>&1 &
+
+exit $RETVAL
