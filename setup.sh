@@ -1,15 +1,17 @@
-# Ô´ÂëµÄ°²×°Ò»°ãÓÉÓĞÕâÈı¸ö²½Öè£ºÅäÖÃ(configure)¡¢±àÒë(make)¡¢°²×°(make install)
-yum -y install gcc libffi-devel openssl-devel zlib-devel autoconf gcc+ gcc-c++
+#!/usr/bin/env bash
 
 
-# °²×°SSDB
+# å®‰è£…å¿…è¦å‰ç½®
+yum -y install gcc libffi-devel openssl-devel zlib-devel autoconf gcc+ gcc-c++ libxml2 libxslt
+
+# å®‰è£…SSDB
 wget --no-check-certificate https://github.com/ideawu/ssdb/archive/master.zip
 unzip master
 cd ssdb-master
 make
 sudo make install
-# ½«°²×°ÔÚ /usr/local/ssdb Ä¿Â¼ÏÂ
-# ÎÊÌâ½â¾ö£º http://ssdb.io/docs/zh_cn/install.html
+
+# å®‰è£…python3
 cd ..
 wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz
 tar -xf  Python-3.7.3.tgz
@@ -19,14 +21,21 @@ sudo make && make install
 
 
 
+# ç¯å¢ƒå˜é‡é…ç½®
+# vi /etc/profile
+
+# åœ¨æœ€åä¸€è¡Œæ·»åŠ ä»¥ä¸‹å†…å®¹
+# PATH=$PATH:/usr/local/python3/bin
+# export PATH
+
+# æ‰§è¡Œä»¥ä¸‹ä»£ç 
+# source /etc/profile
+
+# æŸ¥è¯¢ç¯å¢ƒå˜é‡
+# echo $PATH
 
 
 
+# é…ç½®SSDBè‡ªå¯
+# æ•™ç¨‹ï¼šhttp://ssdb.io/docs/zh_cn/install.html
 
-
-
-
-# ÖØÖÃsshµÇÂ¼
-# ssh-keygen -R 94.191.9.234
-# ÉÏ´«ÎÄ¼ş
-# scp /Users/mr.dong/Desktop/setup.sh root@94.191.9.234:/root/setup.sh
