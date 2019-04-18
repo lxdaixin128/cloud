@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-
 # 安装必要前置
-yum -y install gcc libffi-devel openssl-devel zlib-devel autoconf gcc+ gcc-c++ libxml2 libxslt
+yum -y install gcc libffi-devel openssl-devel zlib-devel autoconf gcc+ gcc-c++ libxml2 libxslt git-core libxml2-dev libxslt-devel
 
 # 安装SSDB
 wget --no-check-certificate https://github.com/ideawu/ssdb/archive/master.zip
@@ -21,23 +20,28 @@ cd Python-3.7.3
 ./configure --prefix=/usr/local/python3
 sudo make && make install
 
+# 获取proxy_pool和SSDBAdmin
+cd /usr/local
+git clone git@github.com:jhao104/proxy_pool.git
+git clone git@github.com:jhao104/SSDBAdmin.git
+
+# 安装依赖
+pip3 install APScheduler werkzeug Flask requests pymongo redis lxml
 
 
-# 环境变量配置
-# vi /etc/profile
-
-# 在最后一行添加以下内容
-# PATH=$PATH:/usr/local/python3/bin
-# export PATH
-
-# 执行以下代码
-# source /etc/profile
-
-# 查询环境变量
-# echo $PATH
 
 
 
 # 配置SSDB自启
 # 教程：http://ssdb.io/docs/zh_cn/install.html
 
+
+# 安装mysql (MariaDB)
+# yum install -y mysql-server mysql mysql-deve #安装
+
+# systemctl start mariadb #启动服务
+# systemctl enable mariadb #设置开机启动
+# systemctl restart mariadb #重新启动
+# systemctl stop mariadb.service #停止MariaDB
+
+# mysql_secure_installation #初始化设置
