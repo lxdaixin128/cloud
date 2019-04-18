@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
+
 # 安装必要前置
-yum -y install gcc libffi-devel openssl-devel zlib-devel autoconf gcc+ gcc-c++ libxml2 libxslt git-core libxml2-dev libxslt-devel
+yum -y install gcc libffi-devel openssl-devel zlib-devel autoconf gcc+ gcc-c++ libxml2 libxslt git-core libxslt-devel
 
 # 安装SSDB
 wget --no-check-certificate https://github.com/ideawu/ssdb/archive/master.zip
@@ -9,8 +10,15 @@ unzip master
 cd ssdb-master
 make
 sudo make install
-# 将安装在 /usr/local/ssdb 目录下
-# 问题解决： http://ssdb.io/docs/zh_cn/install.html
+
+# 修改SSDB配置文件
+rm -f /usr/local/ssdb/ssdb.conf
+cp /root/cloud/ssdb.conf /usr/local/ssdb
+
+# 配置SSDB自启
+cp /root/cloud/ssdb /etc/init.d
+sudo chkconfig --add ssdb
+sudo chkconfig ssdb on
 
 # 安装python3
 cd ..
@@ -25,23 +33,29 @@ cd /usr/local
 git clone git@github.com:jhao104/proxy_pool.git
 git clone git@github.com:jhao104/SSDBAdmin.git
 
+# 配置爬虫代理池
+rm -f /usr/local/proxy_pool/Config/setting.py
+cp /root/cloud/setting.py /usr/local/proxy_pool/Config/setting.py
+
 # 安装依赖
 pip3 install APScheduler werkzeug Flask requests pymongo redis lxml
 
 
 
-
+# 修改SSDB配置文件
+rm -f /usr/local/ssdb/ssdb.conf
+cp /root/cloud/ssdb.conf /usr/local/ssdb
 
 # 配置SSDB自启
-# 教程：http://ssdb.io/docs/zh_cn/install.html
+cp /root/cloud/ssdb /etc/init.d
+sudo chkconfig --add ssdb
+sudo chkconfig ssdb on
+
 
 
 # 安装mysql (MariaDB)
-# yum install -y mysql-server mysql mysql-deve #安装
+yum install -y mysql-server mysql mysql-deve #安装
+systemctl start mariadb #启动服务
+systemctl enable mariadb #设置开机启动
 
-# systemctl start mariadb #启动服务
-# systemctl enable mariadb #设置开机启动
-# systemctl restart mariadb #重新启动
-# systemctl stop mariadb.service #停止MariaDB
-
-# mysql_secure_installation #初始化设置
+mysql_secure_installation #初始化设置
