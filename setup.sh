@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-
-
 # 安装必要前置
-yum -y install gcc libffi-devel openssl-devel zlib-devel autoconf gcc+ gcc-c++ libxml2 libxslt git-core libxslt-devel
+yum -y install gcc libffi-devel openssl-devel zlib-devel autoconf gcc+ gcc-c++ libxml2 libxslt libxslt-devel
 
 # 安装SSDB
 wget --no-check-certificate https://github.com/ideawu/ssdb/archive/master.zip
