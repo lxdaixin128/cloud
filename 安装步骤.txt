@@ -1,0 +1,44 @@
+# 环境变量配置
+vi /etc/profile
+# 在最后一行添加以下内容
+PATH=$PATH:/usr/local/python3/bin
+export PATH
+PATH=$PATH:/usr/local/ssdb
+export PATH
+# 执行以下代码
+source /etc/profile
+# 查询环境变量
+echo $PATH
+
+
+
+# 配置github
+ssh-keygen -t rsa -C "306111603@qq.com"  # 回车三下获取密匙
+cat /root/.ssh/id_rsa.pub   # 复制密匙
+https://github.com/settings/keys # 添加密匙
+
+# 安装git
+yum -y install git-core
+
+# 获取cloud
+git clone git@github.com:lxdaixin128/cloud.git
+
+# 加执行权限并安装
+cd cloud
+chmod 777 setup.sh
+chmod 777 server.sh
+cp server.sh /root
+./setup.sh
+
+
+
+# 安装mysql (MariaDB)
+yum install -y mysql-server mysql mysql-deve mariadb-server #安装
+systemctl start mariadb #启动服务
+systemctl enable mariadb #设置开机启动
+mysql_secure_installation #初始化设置
+# 登录mysql设置远程访问权限
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY 'aixin128' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+
